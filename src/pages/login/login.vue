@@ -8,31 +8,7 @@
         </div>
       </div>
       <div class="login-content">
-        <div class="login" v-if="isSign">
-          <el-form
-            :model="ruleForm"
-            :rules="rules"
-            :label-position="labelPosition"
-            ref="ruleForm"
-            label-width="100px"
-            class="demo-ruleForm"
-          >
-            <el-form-item prop="name">
-              <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
-            </el-form-item>
-            <el-form-item prop="psd">
-              <el-input :type="passw" v-model="ruleForm.psd" placeholder="请输入密码">
-                <i slot="suffix" :class="icon" @click="showPass"></i>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-              <el-button type="primary" @click="sgin">注册</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-
-        <div class="login2" v-if="!isSign">
+        <div class="login2" v-show="!isSign">
           <el-form
             :model="registerForm"
             :rules="registerRules"
@@ -48,10 +24,10 @@
               <el-input v-model="registerForm.mobilePhone" placeholder="请输入手机号码"></el-input>
             </el-form-item>
             <el-form-item prop="password" label="密码">
-              <el-input v-model="registerForm.password" placeholder="请输入密码"></el-input>
+              <el-input :type="passw" v-model="registerForm.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item prop="password2" label="确认密码">
-              <el-input v-model="registerForm.password2" placeholder="再次输入密码"></el-input>
+              <el-input  :type="passw"  v-model="registerForm.password2" placeholder="再次输入密码"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submit('registerForm')">确定</el-button>
@@ -59,6 +35,32 @@
             </el-form-item>
           </el-form>
         </div>
+
+        <transition name="el-zoom-in-center">
+          <div class="login" v-show="isSign">
+            <el-form
+              :model="ruleForm"
+              :rules="rules"
+              :label-position="labelPosition"
+              ref="ruleForm"
+              label-width="100px"
+              class="demo-ruleForm"
+            >
+              <el-form-item prop="name">
+                <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+              </el-form-item>
+              <el-form-item prop="psd">
+                <el-input :type="passw" v-model="ruleForm.psd" placeholder="请输入密码">
+                  <i slot="suffix" :class="icon" @click="showPass"></i>
+                </el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                <el-button type="primary" @click="sgin">注册</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -134,8 +136,8 @@ export default {
       labelPosition: "top",
       regPosition: "right",
       ruleForm: {
-        name: "",
-        psd: ""
+        name: "nihao123",
+        psd: "12312341003"
       },
       isSign: true,
       icon: "el-input__icon el-icon-view",
@@ -179,7 +181,7 @@ export default {
             })
             .catch(data => {
               console.log(data);
-              this.$message.error('登陆失败'+data);
+              this.$message.error("登陆失败" + data);
             });
         } else {
           return false;
