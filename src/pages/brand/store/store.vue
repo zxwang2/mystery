@@ -20,7 +20,7 @@
               <!-- <el-button type="text" class="button">编辑</el-button> -->
               <div>
                 <el-tooltip effect="dark" content="编辑" placement="bottom">
-                  <i class="el-icon-edit"></i>
+                  <i class="el-icon-edit" @click="getStoreInfo(item)"></i>
                 </el-tooltip>
               </div>
               <div>
@@ -30,7 +30,7 @@
               </div>
               <div>
                 <el-tooltip effect="dark" content="删除" placement="bottom">
-                  <i class="el-icon-delete"></i>
+                  <i class="el-icon-delete" @click="deleteStore(item)"></i>
                 </el-tooltip>
               </div>
             </div>
@@ -166,7 +166,27 @@ export default {
   methods: {
     add: function() {
       console.log(this.form);
-      this.$server
+      if(this.form.id){
+        console.log('编辑------');
+        this.$server
+        .put("http://132.232.17.86:8060/store", this.form)
+        .then(data => {
+          console.log(data);
+          this.dialogFormVisible = false;
+          this.$message({
+            message: "编辑门店成功！！！",
+            type: "success"
+          });
+
+          this.$server
+            .fetch("http://132.232.17.86:8060/store/all", {})
+            .then(data => {
+              this.items = data.data;
+            });
+        });
+
+      }else{
+       this.$server
         .post("http://132.232.17.86:8060/store", this.form)
         .then(data => {
           console.log(data);
@@ -182,11 +202,15 @@ export default {
               this.items = data.data;
             });
         });
+
+      }
+
+
     },
     showMap: function() {
       this.MapFormVisible = true;
     },
-    addStore:function(){
+    addStore: function() {
       this.form = {
         name: "",
         mobilePhone: "",
@@ -197,7 +221,7 @@ export default {
         lat: 0,
         locationCode: ""
       };
-     this.dialogFormVisible = true;
+      this.dialogFormVisible = true;
     },
     focus: function(event) {
       console.log(event);
@@ -209,6 +233,30 @@ export default {
       this.form.lat = e.latitude;
       this.form.address = e.address;
       this.MapFormVisible = false;
+    },
+    deleteStore: function(item) {
+      console.log(item);
+      console.log(item.id);
+      const id = item.id;
+      this.$server
+        .Delete("http://132.232.17.86:8060/store/" + id, {})
+        .then(data => {
+          this.$message({
+            message: "删除门店成功！！！",
+            type: "success"
+          });
+
+          this.$server
+            .fetch("http://132.232.17.86:8060/store/all", {})
+            .then(data => {
+              console.log(data);
+              this.items = data.data;
+            });
+        });
+    },
+    getStoreInfo:function(item){
+      this.form = item;
+      this.dialogFormVisible = true;
     }
   },
   components: {
@@ -216,6 +264,8 @@ export default {
   },
   created: function() {
     this.$server.fetch("http://132.232.17.86:8060/store/all", {}).then(data => {
+      console.log("------------------");
+      console.log(data);
       this.items = data.data;
     });
   }
