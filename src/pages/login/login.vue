@@ -136,8 +136,8 @@ export default {
       labelPosition: "top",
       regPosition: "right",
       ruleForm: {
-        name: "nihao123",
-        psd: "12312341003"
+        name: "12312341003",
+        psd: "nihao123"
       },
       isSign: true,
       icon: "el-input__icon el-icon-view",
@@ -169,8 +169,8 @@ export default {
           localStorage.setItem("token", "");
           this.$server
             .post("http://132.232.17.86:8060/api/auth", {
-              password: this.ruleForm.name,
-              account: this.ruleForm.psd
+              password: this.ruleForm.psd,
+              account: this.ruleForm.name
             })
             .then(data => {
               console.log(data);

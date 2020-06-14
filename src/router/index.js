@@ -4,6 +4,7 @@ import login from '../pages/login/login.vue'
 import home from '../pages/home/home.vue'
 import center from '../pages/center/center.vue'
 import message from '../pages/message/message.vue'
+import store from '../pages/brand/store/store.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,8 @@ export default new Router({
         },
         {
           path: '/message', component: message
+        },{
+          path: '/store', component: store
         }
       ]
     }

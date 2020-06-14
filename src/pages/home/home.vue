@@ -1,65 +1,98 @@
 <template>
-<div>
-    <el-menu
-    :default-active="activeIndex2"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
-  >
-    <el-menu-item index="1">处理中心</el-menu-item>
-    <el-submenu index="2">
-      <template slot="title">我的工作台</template>
-      <el-menu-item index="2-1">选项1</el-menu-item>
-      <el-submenu index="2-2">
-        <template slot="title">选项2</template>
-        <el-menu-item index="2-2-1">选项1</el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-menu-item index="3">
-         消息中心
-      <el-badge :value="3" class="item">
-       </el-badge>
-    </el-menu-item>
-    <el-menu-item index="4">
-      订单管理
-      <el-badge is-dot class="item"></el-badge>
-    </el-menu-item>
-  </el-menu>
-  <div class="content">
-    <router-view></router-view>
-  </div>
-</div>
+  <div class="home">
+    <div class="menu">
+      <div>
+        <h3>欢迎XXX</h3>
+      </div>
+      <div class="menuinfo">
+        <el-row class="tac">
+          <el-col>
+            <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="rgba(121, 106, 238, 0.9)"
+              text-color="#fff"
+              active-text-color="#ffd04b"
+            >
+              <el-submenu index="1">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>品牌管理</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="1-1" @click="handleSelect(1)">门店管理</el-menu-item>
+                  <el-menu-item index="1-2">选项2</el-menu-item>
+                  <el-menu-item index="1-3">选项2</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+              <el-menu-item index="2">
+                <i class="el-icon-menu"></i>
+                <span slot="title">导航二</span>
+              </el-menu-item>
+              <el-menu-item index="3" disabled>
+                <i class="el-icon-document"></i>
+                <span slot="title">导航三</span>
+              </el-menu-item>
+              <el-menu-item index="4">
+                <i class="el-icon-setting"></i>
+                <span slot="title">导航四</span>
+              </el-menu-item>
+            </el-menu>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
 
+    <div class="content">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 <style scoped>
-.content{
-  margin-top: 15px;
+.home {
+  display: flex;
+  height: 100%;
+}
+.content {
+  width: 85%;
+}
+.menu {
+  height: 100%;
+  width: 15%;
+  background: rgba(121, 106, 238, 0.9);
+}
+.menuinfo{
+  margin-top: 35px;
 }
 </style>
 <script>
 export default {
-  data () {
+  data() {
     return {
-      activeIndex: '1',
-      activeIndex2: '1'
-    }
+      activeIndex: "1",
+      activeIndex2: "1"
+    };
   },
   methods: {
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-      console.log(key)
-      console.log(keyPath)
-      if (key === '1') {
-        // 跳转到处理中心
-        this.$router.push({path: '/center'})
-      } else if (key === '3') {
+    handleSelect(key) {
+      console.log(key);
+      if (key === 1) {
+        // 跳转到门店管理页面
+        this.$router.push({ path: "/store" });
+      } else if (key === "3") {
         // 跳转到消息中心
-        this.$router.push({path: '/message'})
+        this.$router.push({ path: "/message" });
       }
+    },
+
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     }
   }
-}
+};
 </script>
